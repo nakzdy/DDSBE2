@@ -23,10 +23,18 @@ trait ApiResponser
      *
      * @param string|array $message
      * @param int $code
+     * @param int|null $site  // Add the $site parameter here
      * @return \Illuminate\Http\JsonResponse
      */
-    public function errorResponse($message, $code)
+    public function errorResponse($message, $code, $site = null)
     {
-        return response()->json(['error' => $message, 'code' => $code], $code);
+        $responseData = ['error' => $message, 'code' => $code];
+
+        // Add the 'site' key to the response data if $site is provided
+        if ($site !== null) {
+            $responseData['site'] = $site;
+        }
+
+        return response()->json($responseData, $code);
     }
 }
