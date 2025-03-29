@@ -23,7 +23,7 @@ trait ApiResponser
      *
      * @param string|array $message
      * @param int $code
-     * @param int|null $site  // Add the $site parameter here
+     * @param int|null $site   // Add the $site parameter here
      * @return \Illuminate\Http\JsonResponse
      */
     public function errorResponse($message, $code, $site = null)
