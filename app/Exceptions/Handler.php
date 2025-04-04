@@ -49,6 +49,29 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        $statusCode = 500; // Default status code
+        $errorMessage = $exception->getMessage() ?: 'Server Error';
+
+        if ($exception instanceof HttpException) {
+            $statusCode = $exception->getStatusCode();
+            $errorMessage = $exception->getMessage() ?: 'HTTP Error';
+        } elseif ($exception instanceof ValidationException) {
+            $statusCode = 422;
+            $errorMessage = $exception->validator->errors()->first();
+        } elseif ($exception instanceof ModelNotFoundException) {
+            $statusCode = 404;
+            $errorMessage = 'Resource not found.';
+        } elseif ($exception instanceof AuthorizationException) {
+            $statusCode = 403;
+            $errorMessage = 'Unauthorized action.';
+        }
+
+        $response = [
+            'error' => $errorMessage,
+            'site' => 2, 
+            'code' => $statusCode,
+        ];
+
+        return response()->json($response, $statusCode);
     }
 }

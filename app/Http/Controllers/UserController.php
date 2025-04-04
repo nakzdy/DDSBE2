@@ -50,7 +50,7 @@ class UserController extends Controller
         try {
             UserJob::findOrFail($request->jobid);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return $this->errorResponse('Invalid job ID provided.', Response::HTTP_UNPROCESSABLE_ENTITY, 2); // Added site ID
+            return $this->errorResponse('Does not exist any instance of userjob with the given id', Response::HTTP_NOT_FOUND, 2); 
         }
 
         $user = User::create($request->all()); // Include all fields from the request
@@ -62,7 +62,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return $this->errorResponse('User ID does not exist', Response::HTTP_NOT_FOUND, 2); // Added site ID
+            return $this->errorResponse('User ID does not exist', Response::HTTP_NOT_FOUND, 2);
         }
 
         return $this->successResponse($user);
@@ -87,7 +87,7 @@ class UserController extends Controller
         try {
             UserJob::findOrFail($request->jobid);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return $this->errorResponse('Invalid job ID provided.', Response::HTTP_UNPROCESSABLE_ENTITY, 2); // Added site ID
+            return $this->errorResponse('Does not exist any instance of userjob with the given id', Response::HTTP_NOT_FOUND, 2);
         }
 
         $user = User::findOrFail($id);
@@ -96,7 +96,7 @@ class UserController extends Controller
 
         // if no changes happen
         if ($user->isClean()) {
-            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY, 2); // Added site ID
+            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY, 2); // Kept site ID
         }
 
         $user->save();
@@ -109,7 +109,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return $this->errorResponse('User ID does not exist', Response::HTTP_NOT_FOUND, 2); // Added site ID
+            return $this->errorResponse('User ID does not exist', Response::HTTP_NOT_FOUND, 2); // Kept site ID
         }
 
         $user->delete();

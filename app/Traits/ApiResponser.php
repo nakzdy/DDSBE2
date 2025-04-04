@@ -11,11 +11,15 @@ trait ApiResponser
      *
      * @param string|array $data
      * @param int $code
+     * @param int|null $site   // Add the $site parameter here
      * @return \Illuminate\Http\JsonResponse
      */
-    public function successResponse($data, $code = Response::HTTP_OK)
+    public function successResponse($data, $code = Response::HTTP_OK, $site = 2)
     {
-        return response()->json(['data' => $data], $code);
+        return response()->json([
+            'data' => $data,
+            'site' => $site,
+        ], $code);
     }
 
     /**
@@ -26,14 +30,9 @@ trait ApiResponser
      * @param int|null $site   // Add the $site parameter here
      * @return \Illuminate\Http\JsonResponse
      */
-    public function errorResponse($message, $code, $site = null)
+    public function errorResponse($message, $code, $site = 2)
     {
-        $responseData = ['error' => $message, 'code' => $code];
-
-        // Add the 'site' key to the response data if $site is provided
-        if ($site !== null) {
-            $responseData['site'] = $site;
-        }
+        $responseData = ['error' => $message, 'code' => $code, 'site' => $site];
 
         return response()->json($responseData, $code);
     }
