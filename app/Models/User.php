@@ -13,6 +13,7 @@ class User extends Model
     protected $primaryKey = 'userid';
     public $incrementing = true;
     protected $keyType = 'int';
+    protected $hidden = ['password',];
 
     public function job()
     {
