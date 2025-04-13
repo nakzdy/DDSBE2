@@ -6,6 +6,13 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+// Debug Route (Paste this right after the root route)
+$router->get('/debug-key', function () use ($router) {
+    return response()->json([
+        'key' => env('PASSPORT_PUBLIC_KEY')
+    ]);
+});
+
 // Unsecured Routes
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/users', 'UserController@index'); // Get all users
